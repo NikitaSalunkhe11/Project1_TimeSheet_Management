@@ -2,8 +2,8 @@ import React from "react";
 import RoleBasedListPages from "../../../components/admin/reusableComponent/RoleBasedListPages";
 
 
-const EmployeeListPage = () => {
-  return <RoleBasedListPages roleFilter="employee" />;
+const TeamLeadListPage = () => {
+  return <RoleBasedListPages roleFilter="teamlead" />;
 };
 
-export default EmployeeListPage;
+export default TeamLeadListPage;

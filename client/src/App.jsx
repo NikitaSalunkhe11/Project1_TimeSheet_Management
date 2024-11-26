@@ -12,6 +12,7 @@ import Admindashboard from "./pages/admin/Admindashboard";
 import Addproject from "./pages/admin/project/Addproject";
 import AddEmployee from "./pages/admin/project/AddEmployee";
 import EmployeeListPage from "./pages/admin/project/EmployeeListPage";
+import Timesheet from "./pages/admin/project/timesheet/Timesheet";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -70,6 +71,10 @@ const App = () => {
     {
       path: "/Addproject",
       element: <Addproject />,
+    },
+    {
+      path: "/Timesheet",
+      element: <Timesheet />,
     },
     
   ]);

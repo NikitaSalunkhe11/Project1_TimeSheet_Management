@@ -112,7 +112,7 @@ export default function Sidenavbar() {
             onClick={() => {
               navigate("/Admindashboard");
             }}
-          >
+           >
             <ListItemButton
               sx={[
                 {
@@ -166,7 +166,7 @@ export default function Sidenavbar() {
             onClick={() => {
               navigate("/addEmployee");
             }}
-          >
+           >
             <ListItemButton
               sx={[
                 {
@@ -311,7 +311,10 @@ export default function Sidenavbar() {
               />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }}>
+          <ListItem disablePadding sx={{ display: "block" }}
+          onClick={() => {
+            navigate("/timesheet");
+          }}>
             <ListItemButton
               sx={[
                 {
@@ -355,6 +358,9 @@ export default function Sidenavbar() {
                         opacity: 0,
                       },
                 ]}
+                onClick={() => {
+                  navigate("/timesheet");
+                }}
               />
             </ListItemButton>
           </ListItem>

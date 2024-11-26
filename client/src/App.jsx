@@ -12,6 +12,7 @@ import Admindashboard from "./pages/admin/Admindashboard";
 import Addproject from "./pages/admin/project/Addproject";
 import AddEmployee from "./pages/admin/project/AddEmployee";
 import EmployeeListPage from "./pages/admin/project/EmployeeListPage";
+import Timesheet from "./pages/admin/project/timesheet/Timesheet";
 import ManagerListPage from "./pages/admin/project/ManagerListPage";
 import RoleBasedListPages from "./components/admin/reusableComponent/RoleBasedListPages";
 import TeamLeadListPage from "./pages/admin/project/TeamLeadListPage";
@@ -85,6 +86,10 @@ const App = () => {
     {
       path: "/Addproject",
       element: <Addproject />,
+    },
+    {
+      path: "/Timesheet",
+      element: <Timesheet />,
     },
     
     

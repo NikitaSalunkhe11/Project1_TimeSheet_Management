@@ -13,6 +13,9 @@ import Addproject from "./pages/admin/project/Addproject";
 import AddEmployee from "./pages/admin/project/AddEmployee";
 import EmployeeListPage from "./pages/admin/project/EmployeeListPage";
 import Timesheet from "./pages/admin/project/timesheet/Timesheet";
+import ManagerListPage from "./pages/admin/project/ManagerListPage";
+import RoleBasedListPages from "./components/admin/reusableComponent/RoleBasedListPages";
+import TeamLeadListPage from "./pages/admin/project/TeamLeadListPage";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -31,6 +34,18 @@ const App = () => {
     {
       path:"/addEmployee",
       element:<AddEmployee/>
+    },
+    {
+      path:"/managerListPage",
+      element:<ManagerListPage/>
+    },
+    {
+      path:"/teamLeadListPage",
+      element:<TeamLeadListPage/>
+    },
+    {
+      path:"/roleBasedListPages",
+      element:<RoleBasedListPages/>
     },
     {
       path: "/register",
@@ -76,6 +91,7 @@ const App = () => {
       path: "/Timesheet",
       element: <Timesheet />,
     },
+    
     
   ]);
   return (

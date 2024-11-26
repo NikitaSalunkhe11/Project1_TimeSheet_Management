@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Grid,
   Button,
@@ -68,14 +70,14 @@ const AddEmployee = () => {
     postalCode: Yup.number().positive("Must be a Positive Number")
       .required("Postal Code is required")
       .positive("Must be a Positive Number"),
-    ssn: Yup.number()
+    ssn: Yup.number("Only Integer value Accepted")
       .required("SSN is required")
       .positive("Must be a Positive Number"),
     bankName: Yup.string().required("Bank Name is required"),
-    accountNumber: Yup.number().positive("Account number must be Positive")
+    accountNumber: Yup.number("Only Integer value Accepted").positive("Account number must be Positive")
       .required("Account Number is required")
       .positive("Must be a Positive Number"),
-    routingNumber: Yup.number()
+    routingNumber: Yup.number("Enter Number only")
       .required("Routing Number is required")
       .positive("Must be a Positive Number"),
   });
@@ -143,10 +145,13 @@ const AddEmployee = () => {
           },
           {
             label: "TeamLead List",
-            path: "/teamLeadList",
+            path: "/teamLeadListPage",
             color: "secondary",
           },
-          { label: "Manager List", path: "/managerList", color: "success" },
+          { 
+            label: "Manager List", 
+            path: "/managerListPage", 
+            color: "success" },
         ]}
       />
       <Paper elevation={10} sx={{ p: 2 }}>
@@ -187,11 +192,12 @@ const AddEmployee = () => {
             routingNumber: "",
           }}
           validationSchema={validationSchema}
-          onSubmit={async (values) => {
+          onSubmit={async (values, { resetForm }) => {
             values.profilepicture = profilePicture;
             console.log("profilepicture", profilePicture);
             console.log("Submitted values:", values);
-
+            alert(`${values.fullName} ${values.role} is added successfully!`);
+            resetForm();
             try {
               const response = await ApiInstance.post(
                 "/api/addEmployee",

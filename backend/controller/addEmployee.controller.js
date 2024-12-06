@@ -1,11 +1,28 @@
 
 const Employee = require("../model/addEmployee.model");
+const addEmployeeTransporter = require("../config/nodeMailer");
 
 const addEmployee = async (req, res)=>{
     try {
       
         const newEmployee = new Employee(req.body);
         await newEmployee.save();
+
+        const addEmpMailOption = {
+          from:process.env.ADD_EMP_EMAIL,
+          to:newEmployee.personalMail,
+          subject:"Successfully added Employee",
+          html:`<h2>Welcome ${newEmployee.fullName}</h2>
+          <h3>You are Successfully added in Company Timesheet Recorder System</h3>`
+        }    
+        
+        addEmployeeTransporter.sendMail(addEmpMailOption, (err, result)=>{
+          if(err){
+            console.log(err)
+          }else{
+            console.log(result);
+          }
+        })
 
         console.log("Employee Added Successfully !!!", newEmployee);
         res.status(200).send({message:"new Employee added Successfully !!!", newEmployee})

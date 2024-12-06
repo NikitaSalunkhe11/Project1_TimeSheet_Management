@@ -1,6 +1,8 @@
 import { TextField } from "@mui/material";
 
 const FormTextField = ({ label, name, value, onChange, error, helperText, type = "text", fullWidth = true }) => {
+  console.log("In fromTextField",label);
+  console.log("values in formTextField", value);
   return (
     <TextField
       fullWidth={fullWidth}

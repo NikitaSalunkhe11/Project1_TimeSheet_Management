@@ -54,10 +54,12 @@ const addEmployeeSchema = new mongoose.Schema({
         required: true 
     },
     bloodType: { 
-        type: String 
+        type: String,
+        required: true
     },
-    PANCardNo: { 
-        type: String 
+    panCardNo: { 
+        type: String, 
+        required: true,
     },
     address: { 
         type: String 

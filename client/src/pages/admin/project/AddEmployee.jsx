@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import {
   Grid,
   Button,
@@ -26,7 +24,32 @@ const AddEmployee = () => {
 
   const [profilePicture, setProfilePicture] = useState(null);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [values, setValues] = useState({});
+  let [editEmployeeData, setEditEmployeeData] = useState({});
+
+  editEmployeeData = {
+    profilepicture: editEmployeeData.profilePicture || "",
+    employeeId: editEmployeeData.employeeId || "",
+    role: editEmployeeData.role || "",
+    fullName: editEmployeeData.fullName || "",
+    hiringDate: editEmployeeData.hiringDate || "",
+    position: editEmployeeData.position || "",
+    companyMail: editEmployeeData.companyMail || "",
+    personalMail: editEmployeeData.personalMail || "",
+    phoneNo: editEmployeeData.phoneNo || "",
+    salary: editEmployeeData.salary || "",
+    category: editEmployeeData.category || "",
+    experienceYears: editEmployeeData.experienceYears || 0,
+    birthdate: editEmployeeData. birthdate || "",
+    gender: editEmployeeData.gender || "",
+    bloodType: editEmployeeData.bloodType || "",
+    panCardNo: editEmployeeData.panCardNo || "",
+    address: editEmployeeData.address || "",
+    postalCode: editEmployeeData.postalCode ||  "",
+    ssn: editEmployeeData.ssn || "",
+    bankName: editEmployeeData.bankName || "",
+    accountNumber: editEmployeeData.accountNumber || "",
+    routingNumber: editEmployeeData.routingNumber || "",
+  };
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -34,10 +57,10 @@ const AddEmployee = () => {
         try {
           // Corrected the URL to pass the `id` dynamically
           const response = await ApiInstance.get(`/api/getEmployeeById/${id}`);
-          const values= response.data;
           console.log("Successfully getting the values by id:", response.data);
-          console.log("values check ", values);
-          setValues(values); // Assuming you're setting a single employee object
+          
+          setEditEmployeeData(response.data); 
+          
         } catch (error) {
           console.error("Error fetching employee by ID:", error); 
         }
@@ -45,7 +68,28 @@ const AddEmployee = () => {
     };
     fetchEmployees();
   }, [id]); 
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      if (id) { // Ensure the `id` exists
+        try {
+          // Corrected the URL to pass the `id` dynamically
+          const response = await ApiInstance.get(`/api/getEmployeeById/${id}`);
+          console.log("Successfully getting the values by id:", response.data);
+          
+          setEditEmployeeData(response.data); 
+          
+        } catch (error) {
+          console.error("Error fetching employee by ID:", error); 
+        }
+      }
+    };
+    fetchEmployees();
+  }, [id]);
   
+  useEffect(() => {
+    console.log("Updated editEmployeeData:", editEmployeeData.fullName);
+  }, [editEmployeeData]);
 
   const validationSchema = Yup.object({
     employeeId: Yup.string().required("Employee ID is required"),
@@ -56,7 +100,7 @@ const AddEmployee = () => {
       .email("Invalid email format")
       .required("Company Mail is required"),
     personalMail: Yup.string()
-      .email("Invalid email format")
+      .email("Invalid email format") 
       .required("Personal Mail is required"),
     phoneNo: Yup.string()
       .matches(/^\d{10}$/, "Must be a 10-digit number")
@@ -167,30 +211,7 @@ const AddEmployee = () => {
           Add Employee
         </Typography>
         <Formik
-          initialValues={{
-            profilepicture: "",
-            employeeId: "",
-            role: "",
-            fullName: "",
-            hiringDate: "",
-            position: "",
-            companyMail: "",
-            personalMail: "",
-            phoneNo: "",
-            salary: "",
-            category:"",
-            experienceYears:0,
-            birthdate: "",
-            gender: "",
-            bloodtype: "",
-            panCardNo: "",
-            address: "",
-            postalCode: "",
-            ssn: "",
-            bankName: "",
-            accountNumber: "",
-            routingNumber: "",
-          }}
+          initialValues={editEmployeeData}
           validationSchema={validationSchema}
           onSubmit={async (values, { resetForm }) => {
             values.profilepicture = profilePicture;
@@ -226,7 +247,7 @@ const AddEmployee = () => {
                 >
                   <ProfilePicture
                     name="profilepicture"
-                    value={values.profilepicture}
+                    value={editEmployeeData.profilepicture}
                     profilePicture={profilePicture}
                     handleFileChange={handleFileChange}
                     isEditingProfile={isEditingProfile}
@@ -253,7 +274,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Employee ID*"
                       name="employeeId"
-                      value={values.employeeId}
+                      value={editEmployeeData.employeeId}
                       onChange={handleChange}
                       error={touched.employeeId && Boolean(errors.employeeId)}
                       helperText={touched.employeeId && errors.employeeId}
@@ -265,7 +286,7 @@ const AddEmployee = () => {
                     <FormSelect
                       label="Role*"
                       name="role"
-                      value={values.role}
+                      value={editEmployeeData.role}
                       onChange={handleChange}
                       error={touched.role && Boolean(errors.role)}
                       helperText={touched.role && errors.role}
@@ -278,7 +299,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Full Name*"
                       name="fullName"
-                      value={values.fullName}
+                      value={editEmployeeData.fullName}
                       onChange={handleChange}
                       error={touched.fullName && Boolean(errors.fullName)}
                       helperText={touched.fullName && errors.fullName}
@@ -291,7 +312,7 @@ const AddEmployee = () => {
                     <TextField
                       label="Hiring Date*"
                       name="hiringDate"
-                      value={values.hiringDate}
+                      value={editEmployeeData.hiringDate}
                       onChange={handleChange}
                       type="date"
                       error={touched.hiringDate && Boolean(errors.hiringDate)}
@@ -312,7 +333,7 @@ const AddEmployee = () => {
                     <FormSelect
                       label="Position*"
                       name="position"
-                      value={values.position}
+                      value={editEmployeeData.position}
                       onChange={handleChange}
                       error={touched.position && Boolean(errors.position)}
                       helperText={touched.position && errors.position}
@@ -325,7 +346,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Company Email*"
                       name="companyMail"
-                      value={values.companyMail}
+                      value={editEmployeeData.companyMail}
                       onChange={handleChange}
                       error={touched.companyMail && Boolean(errors.companyMail)}
                       helperText={touched.companyMail && errors.companyMail}
@@ -337,7 +358,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Personal Email*"
                       name="personalMail"
-                      value={values.personalMail}
+                      value={editEmployeeData.personalMail}
                       onChange={handleChange}
                       error={
                         touched.personalMail && Boolean(errors.personalMail)
@@ -351,7 +372,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Phone No.*"
                       name="phoneNo"
-                      value={values.phoneNo}
+                      value={editEmployeeData.phoneNo}
                       onChange={handleChange}
                       error={touched.phoneNo && Boolean(errors.phoneNo)}
                       helperText={touched.phoneNo && errors.phoneNo}
@@ -363,7 +384,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Salary*"
                       name="salary"
-                      value={values.salary}
+                      value={editEmployeeData.salary}
                       onChange={handleChange}
                       type="number"
                       error={touched.salary && Boolean(errors.salary)}
@@ -374,7 +395,7 @@ const AddEmployee = () => {
                     <FormSelect
                       label="Category*"
                       name="category"
-                      value={values.category}
+                      value={editEmployeeData.category}
                       onChange={handleChange}
                       error={touched.category && Boolean(errors.category)}
                       helperText={touched.category && errors.category}
@@ -386,7 +407,7 @@ const AddEmployee = () => {
                       <FormTextField
                         label="Years of Experience*"
                         name="experienceYears"
-                        value={values.experienceYears || ""}
+                        value={editEmployeeData.experienceYears || ""}
                         onChange={handleChange}
                         error={
                           touched.experienceYears &&
@@ -419,7 +440,7 @@ const AddEmployee = () => {
                     <TextField
                       label="BirthDate*"
                       name="birthdate"
-                      value={values.birthdate}
+                      value={editEmployeeData.birthdate}
                       onChange={handleChange}
                       type="date"
                       error={touched.birthdate && Boolean(errors.birthdate)}
@@ -439,7 +460,7 @@ const AddEmployee = () => {
                     <FormSelect
                       label="Gender"
                       name="gender"
-                      value={values.gender}
+                      value={editEmployeeData.gender}
                       onChange={handleChange}
                       error={touched.gender && Boolean(errors.gender)}
                       helperText={touched.gender && errors.gender}
@@ -450,19 +471,19 @@ const AddEmployee = () => {
                   <Grid item xs={12} sm={6}>
                     <FormTextField
                       label="Blood Type"
-                      name="bloodtype"
-                      value={values.bloodtype}
+                      name="bloodType"
+                      value={editEmployeeData.bloodType}
                       onChange={handleChange}
                       type="text"
-                      error={touched.bloodtype && Boolean(errors.bloodtype)}
-                      helperText={touched.bloodtype && errors.bloodtype}
+                      error={touched.bloodType && Boolean(errors.bloodType)}
+                      helperText={touched.bloodType && errors.bloodType}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <FormTextField
                       label="PAN Card No.*"
                       name="panCardNo"
-                      value={values.panCardNo}
+                      value={editEmployeeData.panCardNo}
                       onChange={handleChange}
                       type="text"
                       error={touched.panCardNo && Boolean(errors.panCardNo)}
@@ -474,7 +495,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Address*"
                       name="address"
-                      value={values.address}
+                      value={editEmployeeData.address}
                       onChange={handleChange}
                       type="text"
                       error={touched.address && Boolean(errors.address)}
@@ -486,7 +507,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Postal Code*"
                       name="postalCode"
-                      value={values.postalCode}
+                      value={editEmployeeData.postalCode}
                       onChange={handleChange}
                       type="number"
                       error={touched.postalCode && Boolean(errors.postalCode)}
@@ -513,7 +534,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="SSN*"
                       name="ssn"
-                      value={values.ssn}
+                      value={editEmployeeData.ssn}
                       onChange={handleChange}
                       type="text"
                       error={touched.ssn && Boolean(errors.ssn)}
@@ -524,7 +545,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Bank Name*"
                       name="bankName"
-                      value={values.bankName}
+                      value={editEmployeeData.bankName}
                       onChange={handleChange}
                       type="text"
                       error={touched.bankName && Boolean(errors.bankName)}
@@ -536,7 +557,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Account Number*"
                       name="accountNumber"
-                      value={values.accountNumber}
+                      value={editEmployeeData.accountNumber}
                       onChange={handleChange}
                       type="number"
                       error={
@@ -550,7 +571,7 @@ const AddEmployee = () => {
                     <FormTextField
                       label="Routing Number*"
                       name="routingNumber"
-                      value={values.routingNumber}
+                      value={editEmployeeData.routingNumber}
                       onChange={handleChange}
                       type="text"
                       error={
